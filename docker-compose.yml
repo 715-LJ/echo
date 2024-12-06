@@ -19,7 +19,7 @@ services:
     image: php:8.1-fpm
     container_name: php
     volumes:
-      - ./www:/var/www/html
+      - ./:/var/www/html
     networks:
       - app_network
 
