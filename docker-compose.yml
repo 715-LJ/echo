@@ -1,7 +1,32 @@
-
 version: '3.3'
 
 services:
+  echo-api:
+    build:
+      context: .
+    container_name: echo-api
+    volumes:
+      - ./api:/var/www/html
+    networks:
+      - echo-network
+    depends_on:
+      - php
+    environment:
+      - APP_ENV=local
+
+  echo-api-queue:
+    build:
+      context: .
+    container_name: echo-api-queue
+    command: supervisord -c /etc/supervisord.conf
+    volumes:
+      - ./config/supervisor/supervisord.conf:/etc/supervisord.conf
+      - ./api:/var/www/html
+    networks:
+      - echo-network
+    depends_on:
+      - php
+
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -13,7 +38,7 @@ services:
     depends_on:
       - php
     networks:
-      - app_network
+      - echo-network
 
   php:
     image: php:8.1-fpm
@@ -21,7 +46,7 @@ services:
     volumes:
       - ./api:/var/www/html
     networks:
-      - app_network
+      - echo-network
 
   redis:
     image: redis:latest
@@ -29,7 +54,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - app_network
+      - echo-network
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
@@ -37,27 +62,27 @@ services:
     environment:
       - discovery.type=single-node
     ports:
-      - "9200:9200"
+      - "19200:9200"
     networks:
-      - app_network
+      - echo-network
 
   mysql:
     image: mysql:5.7
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: app_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root@123
+      MYSQL_DATABASE: echo
+      MYSQL_USER: echo
+      MYSQL_PASSWORD: echo@123
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
       - "13306:3306"
     networks:
-      - app_network
+      - echo-network
 
 networks:
-  app_network:
+  echo-network:
     driver: bridge
 
 volumes:
