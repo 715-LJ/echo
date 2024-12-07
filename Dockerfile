@@ -5,11 +5,12 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libzip-dev \
+    libbcmath-dev \
     zip \
     git \
     supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip
+    && docker-php-ext-install bcmath gd zip
 
 WORKDIR /var/www/html
 COPY ./api /var/www/html
