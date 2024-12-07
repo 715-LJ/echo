@@ -2,39 +2,41 @@
 version: '3.3'
 
 services:
-  echo-api:
-    build:
-      context: .
-    container_name: echo-api
-    volumes:
-      - ./api:/var/www/html
-    networks:
-      - echo-network
-    depends_on:
-      - php
-    environment:
-      - APP_ENV=local
-
-  echo-api-queue:
-    build:
-      context: .
-    container_name: echo-api-queue
-    command: supervisord -c /etc/supervisord.conf
-    volumes:
-      - ./config/supervisor/supervisord.conf:/etc/supervisord.conf
-      - ./api:/var/www/html
-    networks:
-      - echo-network
-    depends_on:
-      - php
+  #  echo-api:
+  #    build:
+  #      context: .
+  #    container_name: echo-api
+  #    volumes:
+  #      - ./api:/var/www/html
+  #    networks:
+  #      - echo-network
+  #    depends_on:
+  #      - php
+  #    environment:
+  #      - APP_ENV=local
+  #
+  #  echo-api-queue:
+  #    build:
+  #      context: .
+  #    container_name: echo-api-queue
+  #    command: supervisord -c /etc/supervisord.conf
+  #    volumes:
+  #      - ./config/supervisor/supervisord.conf:/etc/supervisord.conf
+  #      - ./api:/var/www/html
+  #    networks:
+  #      - echo-network
+  #    depends_on:
+  #      - php
 
   nginx:
     image: nginx:latest
     container_name: nginx
     volumes:
-      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./config/nginx/conf.d/front.conf:/etc/nginx/conf.d/front.conf
+      - ./config/nginx/conf.d/api.conf:/etc/nginx/conf.d/api.conf
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./api:/var/www/html
+      - ./front:/var/www/dist
     ports:
       - "8080:80"
     depends_on:
