@@ -28,22 +28,33 @@ services:
   #    depends_on:
   #      - php
 
-  nginx:
+  nginx-front:
     image: nginx:latest
-    container_name: nginx
+    container_name: nginx-front
     volumes:
       - ./config/nginx/conf.d/front.conf:/etc/nginx/conf.d/front.conf
-      - ./config/nginx/conf.d/api.conf:/etc/nginx/conf.d/api.conf
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./api:/var/www/html
-      - ./front:/var/www/dist
+      - ./front:/var/www
     ports:
-      - "8080:80"
+      - "9090:9090"
     depends_on:
       - php
     networks:
       - echo-network
 
+  nginx-api:
+    image: nginx:latest
+    container_name: nginx-api
+    volumes:
+      - ./config/nginx/conf.d/api.conf:/etc/nginx/conf.d/api.conf
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./api:/var/www/html
+    ports:
+      - "8080:8080"
+    depends_on:
+      - php
+    networks:
+      - echo-network
   php:
     image: php:8.1-fpm
     container_name: php
