@@ -4,10 +4,6 @@
 /public/hot
 api/public/storage
 /storage/*.key
-api/vendor
-.env
-.env.backup
-.env.production
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -18,3 +14,4 @@ yarn-error.log
 /.idea
 /.vscode
 front
+/api/vendor/
