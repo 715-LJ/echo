@@ -1,46 +1,39 @@
 #  docker-compose up --build -d
-version: '3.3'
-
+#  docker-compose build --no-cache && docker-compose up -d
 services:
-  #  echo-api:
-  #    build:
-  #      context: .
-  #    container_name: echo-api
-  #    volumes:
-  #      - ./api:/var/www/html
-  #    networks:
-  #      - echo-network
-  #    depends_on:
-  #      - php
-  #    environment:
-  #      - APP_ENV=local
-  #
-  #  echo-api-queue:
-  #    build:
-  #      context: .
-  #    container_name: echo-api-queue
-  #    command: supervisord -c /etc/supervisord.conf
-  #    volumes:
-  #      - ./config/supervisor/supervisord.conf:/etc/supervisord.conf
-  #      - ./api:/var/www/html
-  #    networks:
-  #      - echo-network
-  #    depends_on:
-  #      - php
-
-  nginx-front:
-    image: nginx:latest
-    container_name: nginx-front
+  php:
+    image: php:8.2-fpm
+    container_name: php
     volumes:
-      - ./config/nginx/conf.d/front.conf:/etc/nginx/conf.d/front.conf
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./front:/var/www
-    ports:
-      - "9090:9090"
-    depends_on:
-      - php
+      - ./api:/var/www/html
     networks:
       - echo-network
+
+  echo-api:
+    build:
+      context: .
+    container_name: echo-api
+    volumes:
+      - ./api:/var/www/html
+    networks:
+      - echo-network
+    depends_on:
+      - php
+    environment:
+      - APP_ENV=local
+
+  echo-api-queue:
+    build:
+      context: .
+    container_name: echo-api-queue
+    command: supervisord -c /etc/supervisord.conf
+    volumes:
+      - ./config/supervisor/supervisord.conf:/etc/supervisord.conf
+      - ./api:/var/www/html
+    networks:
+      - echo-network
+    depends_on:
+      - php
 
   nginx-api:
     image: nginx:latest
@@ -55,11 +48,18 @@ services:
       - php
     networks:
       - echo-network
-  php:
-    image: php:8.1-fpm
-    container_name: php
+
+  nginx-front:
+    image: nginx:latest
+    container_name: nginx-front
     volumes:
-      - ./api:/var/www/html
+      - ./config/nginx/conf.d/front.conf:/etc/nginx/conf.d/front.conf
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./front:/var/www
+    ports:
+      - "9090:9090"
+    depends_on:
+      - php
     networks:
       - echo-network
 
@@ -81,20 +81,20 @@ services:
     networks:
       - echo-network
 
-  mysql:
-    image: mysql:5.7
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root@123 #rootpassword
-      MYSQL_DATABASE: echo
-      MYSQL_USER: echo
-      MYSQL_PASSWORD: echo@123
-    volumes:
-      - mysql_data:/var/lib/mysql
-    ports:
-      - "13306:3306"
-    networks:
-      - echo-network
+#  mysql:
+#    image: mysql:5.7
+#    container_name: mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root@123 #rootpassword
+#      MYSQL_DATABASE: echo
+#      MYSQL_USER: echo
+#      MYSQL_PASSWORD: echo@123
+#    volumes:
+#      - mysql_data:/var/lib/mysql
+#    ports:
+#      - "13306:3306"
+#    networks:
+#      - echo-network
 
 networks:
   echo-network:
