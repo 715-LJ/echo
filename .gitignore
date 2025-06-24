@@ -3,7 +3,6 @@
 /public/build
 /public/hot
 api/public/storage
-api/storage/*.key
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

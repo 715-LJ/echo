@@ -54,7 +54,7 @@ return [
 
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', env('LOG_STACK', 'single')),
+            'channels'          => ['daily'],
             'ignore_exceptions' => false,
         ],
 
@@ -68,6 +68,7 @@ return [
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
+            'tap'                  => [App\Handlers\Logging\CustomLogFormatter::class],
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => env('LOG_DAILY_DAYS', 14),
             'replace_placeholders' => true,
