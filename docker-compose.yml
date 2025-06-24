@@ -93,7 +93,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - "13306:3306"
+      - "3306:3306"
     networks:
       - echo-network
 
