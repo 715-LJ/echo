@@ -15,8 +15,10 @@ RUN apt-get update && apt-get install -y \
     openssl \
     ca-certificates \
     supervisor \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) bcmath gd zip pdo pdo_mysql \
+    && docker-php-ext-install -j$(nproc) bcmath gd zip pdo pdo_dblib pdo_mysql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 修复SSL证书问题
