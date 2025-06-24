@@ -2,6 +2,7 @@
 <?php
 
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\ArgvInput;
 
 define('LARAVEL_START', microtime(true));
@@ -12,6 +13,9 @@ require __DIR__.'/vendor/autoload.php';
 // Bootstrap Laravel and handle the command...
 /** @var Application $app */
 $app = require_once __DIR__.'/bootstrap/app.php';
+
+define('REQUEST_ID', Str::uuid());
+const SAPI = 'CLI';
 
 $status = $app->handleCommand(new ArgvInput);
 
