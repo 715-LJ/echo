@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CommonService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CommonController extends Controller
@@ -17,15 +16,14 @@ class CommonController extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse
      */
-    public function code(Request $request): JsonResponse
+    public function code(Request $request)
     {
         $params       = $request->all();
         $params['ip'] = $request->getClientIp();
 
-        $result = $this->CommonService->code($params);
+        $this->CommonService->code($params);
 
-        return $this->success($result);
+        return $this->success();
     }
 }
