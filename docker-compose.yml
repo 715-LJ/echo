@@ -14,6 +14,7 @@ services:
       context: .
     container_name: echo-api
     volumes:
+      - ./config/supervisor:/etc/supervisor
       - ./api:/var/www/html
     networks:
       - echo-network
@@ -81,20 +82,20 @@ services:
     networks:
       - echo-network
 
-#  mysql:
-#    image: mysql:5.7
-#    container_name: mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: root@123 #rootpassword
-#      MYSQL_DATABASE: echo
-#      MYSQL_USER: echo
-#      MYSQL_PASSWORD: echo@123
-#    volumes:
-#      - mysql_data:/var/lib/mysql
-#    ports:
-#      - "13306:3306"
-#    networks:
-#      - echo-network
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root@123 #rootpassword
+      MYSQL_DATABASE: echo
+      MYSQL_USER: echo
+      MYSQL_PASSWORD: echo@123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "13306:3306"
+    networks:
+      - echo-network
 
 networks:
   echo-network:
