@@ -8,12 +8,10 @@ class CommonService extends BaseService
 {
     public function code(array $params)
     {
-        cache_set('num', uuid());
-
-//        $builder = new CaptchaBuilder();
-//        $builder->setPhrase(getRandom(4));
-//        $builder->build(150, 50);
-//        header('Content-type: image/jpeg');
-//        $builder->output();
+        $builder = new CaptchaBuilder();
+        $builder->setPhrase(getRandom(4));
+        $builder->build(150, 50);
+        header('Content-type: image/jpeg');
+        $builder->output();
     }
 }
