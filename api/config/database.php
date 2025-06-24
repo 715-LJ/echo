@@ -169,6 +169,17 @@ return [
             'database' => env('REDIS_CACHE_DB', '1'),
         ],
 
+        'website' => [
+            'url'      => env('REDIS_URL'),
+            'host'     => env('WEBSITE_REDIS_HOST', '172.16.40.202'),
+            'username' => env('WEBSITE_REDIS_USERNAME'),
+            'password' => env('WEBSITE_REDIS_PASSWORD'),
+            'port'     => env('WEBSITE_REDIS_PORT', '6379'),
+            'database' => env('WEBSITE_REDIS_DB', '1'),
+            'options'  => [
+                'prefix' => env('WEBSITE_REDIS_PREFIX', ''),
+            ],
+        ],
     ],
 
 ];

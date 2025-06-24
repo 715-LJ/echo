@@ -2,6 +2,8 @@
 
 namespace App\Http\Services\User;
 
+use App\Constants\ErrorCode;
+use App\Exceptions\ApiException;
 use App\Http\Resources\User\UserCollection;
 use App\Models\User\UserModel;
 
