@@ -28,7 +28,7 @@ services:
     container_name: echo-api-queue
     command: supervisord -c /etc/supervisord.conf
     volumes:
-      - ./config/supervisor/supervisord.conf:/etc/supervisord.conf
+      - ./config/supervisor:/etc/supervisor
       - ./api:/var/www/html
     networks:
       - echo-network
