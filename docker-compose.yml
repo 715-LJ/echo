@@ -1,68 +1,67 @@
-#  docker-compose up --build -d
+#  docker-compose up -d
 #  docker-compose build --no-cache && docker-compose up -d
 services:
-  php:
-    image: php:8.2-fpm
-    container_name: php
-    volumes:
-      - ./api:/var/www/html
-    networks:
-      - echo-network
-
+  #  后端服务层
   echo-api:
     build:
       context: .
+    image: echo-api
     container_name: echo-api
     volumes:
       - ./config/supervisor:/etc/supervisor
       - ./api:/var/www/html
     networks:
-      - echo-network
-    depends_on:
-      - php
+      - echo-backend
     environment:
-      - APP_ENV=local
+      - APP_ENV=${APP_ENV:-local}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
+  #  后端服务异步队列
   echo-api-queue:
-    build:
-      context: .
+    image: echo-api
     container_name: echo-api-queue
-    command: supervisord -c /etc/supervisord.conf
+    command: sh -c "rm -f /var/run/supervisor.sock && supervisord -n -c /etc/supervisor/supervisord.conf"
     volumes:
       - ./config/supervisor:/etc/supervisor
       - ./api:/var/www/html
     networks:
-      - echo-network
+      - echo-backend
     depends_on:
-      - php
+      redis:
+        condition: service_started
 
+  #  后端代理
   nginx-api:
     image: nginx:latest
     container_name: nginx-api
     volumes:
       - ./config/nginx/conf.d/api.conf:/etc/nginx/conf.d/api.conf
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./api:/var/www/html
     ports:
       - "8080:8080"
     depends_on:
-      - php
+      - echo-api
     networks:
-      - echo-network
+      - echo-backend
+      - echo-frontend
 
+  #  前端代理
   nginx-front:
     image: nginx:latest
     container_name: nginx-front
     volumes:
       - ./config/nginx/conf.d/front.conf:/etc/nginx/conf.d/front.conf
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./front:/var/www
     ports:
       - "9090:9090"
     depends_on:
-      - php
+      - echo-api
     networks:
-      - echo-network
+      - echo-frontend
 
   redis:
     image: redis:latest
@@ -70,23 +69,33 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - echo-network
+      - echo-backend
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m  # 限制内存
     ports:
-      - "19200:9200"
+      - "9200:9200"
     networks:
-      - echo-network
+      - echo-backend
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
   mysql:
     image: mysql:8.0
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root@123 #rootpassword
+      MYSQL_ROOT_PASSWORD: root@123
       MYSQL_DATABASE: echo
       MYSQL_USER: echo
       MYSQL_PASSWORD: echo@123
@@ -95,10 +104,17 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - echo-network
+      - echo-backend
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
 networks:
-  echo-network:
+  echo-backend:
+    driver: bridge
+  echo-frontend:
     driver: bridge
 
 volumes:
