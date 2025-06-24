@@ -13,7 +13,49 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-bcmath": "*",
+        "ext-curl": "*",
+        "ext-dom": "*",
+        "ext-gd": "*",
+        "ext-libxml": "*",
+        "ext-openssl": "*",
+        "ext-simplexml": "*",
+        "ext-zip": "*",
+        "alibabacloud/sdk": "^1.8",
+        "alibabacloud/sts-20150401": "^1.1",
+        "aliyuncs/oss-sdk-php": "^2.7",
+        "cloudconvert/cloudconvert-php": "^3.4",
+        "doctrine/dbal": "^3.8",
+        "dompdf/dompdf": "^2.0",
+        "elasticsearch/elasticsearch": "^7.10",
+        "firebase/php-jwt": "^6.10",
+        "guzzlehttp/guzzle": "^7.8",
+        "intervention/image": "^2.5",
+        "laravel/scout": "^10.14",
+        "league/flysystem-aws-s3-v3": "^3.28",
+        "maatwebsite/excel": "^3.1",
+        "microsoft/microsoft-graph": "*",
+        "mpdf/mpdf": "^8.2",
+        "nwidart/laravel-modules": "^10.0",
+        "openai-php/client": "^0.10.3",
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "phpmailer/phpmailer": "^6.9",
+        "phpoffice/phpword": "^1.2",
+        "phpxmlrpc/phpxmlrpc": "*",
+        "qcloud/cos-sdk-v5": "^2.6",
+        "qcloud_sts/qcloud-sts-sdk": "^3.0",
+        "ramsey/uuid": "^4.7",
+        "sendgrid/sendgrid": "^8.1",
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi": "^2.6",
+        "simplesoftwareio/simple-qrcode": "^4.2",
+        "smalot/pdfparser": "^2.9",
+        "stripe/stripe-php": "^16.3",
+        "tecnickcom/tcpdf": "^6.7",
+        "tencentcloud/tencentcloud-sdk-php": "^3.0",
+        "tymon/jwt-auth": "^2.0",
+        "yetanotherape/diff-match-patch": "^1.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -29,7 +71,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -72,7 +117,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "tbachert/spi": true
         }
     },
     "minimum-stability": "stable",
