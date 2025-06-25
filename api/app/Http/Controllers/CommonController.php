@@ -26,4 +26,18 @@ class CommonController extends Controller
 
         return $this->success();
     }
+
+
+    /**
+     * @param Request $request
+     */
+    public function download(Request $request)
+    {
+        $params       = $request->all();
+        $params['ip'] = $request->getClientIp();
+
+        $this->CommonService->download($params);
+
+        return $this->success();
+    }
 }

@@ -14,9 +14,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  */
 class UserModel extends BaseModel implements JWTSubject
 {
-    protected $table = 'migrations';
+    protected $table = 'users';
 
-//    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
 
     /**
@@ -32,9 +32,9 @@ class UserModel extends BaseModel implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
-//        'password',
-//        'password_native',
-//        'deleted_at',
+        'password',
+        'password_native',
+        'deleted_at',
     ];
 
 
@@ -44,8 +44,8 @@ class UserModel extends BaseModel implements JWTSubject
      * @var array<string, string>
      */
     protected $casts = [
-//        'created_at' => 'timestamp',
-//        'updated_at' => 'timestamp',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
     ];
 
     protected static function boot()

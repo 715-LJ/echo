@@ -42,9 +42,11 @@ class UserController extends Controller
     public function store(Request $request): JsonResponse
     {
         $params = $request->all();
+        $params['ip'] = $request->getClientIp();
+
         $result = $this->userService->save($params);
 
-        return $this->success();
+        return $this->success($result);
     }
 
     /**

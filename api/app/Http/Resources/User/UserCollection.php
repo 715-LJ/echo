@@ -21,9 +21,13 @@ class UserCollection extends ResourceCollection
     {
         return $this->collection->map(function ($item) {
             return [
-                'id'    => $item->id,
-                'name'  => $item->name,
-                'email' => $item->email,
+                'id'      => $item->id,
+                'name'    => $item->name,
+                'email'   => $item->email,
+                'unit'    => $item->unit,
+                'phone'   => $item->phone,
+                'type'    => $item->type,
+                'address' => $item->address,
             ];
         });
 

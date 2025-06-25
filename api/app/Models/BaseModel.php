@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class BaseModel extends Model
 {
-//    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     public $timestamps = true;
 
@@ -32,19 +32,19 @@ class BaseModel extends Model
      * @var array
      */
     protected $guarded = [
-//        'id',
-//        'created_at',
-//        'updated_at'
+        'id',
+        'created_at',
+        'updated_at'
     ];
 
 
     protected $casts = [
-//        'created_at'     => 'timestamp',
-//        'updated_at'     => 'timestamp',
+        'created_at'     => 'timestamp',
+        'updated_at'     => 'timestamp',
     ];
 
     protected $hidden = [
-//        'deleted_at'
+        'deleted_at'
     ];
 
     protected static function boot()
