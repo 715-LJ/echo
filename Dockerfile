@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# 安装系统依赖（包含SSL相关依赖）
+# 更新APT包并安装基本工具
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -14,12 +14,22 @@ RUN apt-get update && apt-get install -y \
     curl \
     openssl \
     ca-certificates \
-    supervisor \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) bcmath gd zip pdo pdo_dblib pdo_mysql \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    supervisor
+
+# 安装Redis扩展
+RUN pecl install redis && docker-php-ext-enable redis
+
+# 安装Memcached扩展
+#RUN apt-get update && apt-get install -y libmemcached-dev libssl-dev zlib1g-dev \
+#	&& pecl install memcached-3.2.0 \
+#	&& docker-php-ext-enable memcached \
+
+# 安装PHP扩展
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) bcmath gd zip pdo pdo_mysql
+
+# 清理缓存
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 修复SSL证书问题
 RUN update-ca-certificates
