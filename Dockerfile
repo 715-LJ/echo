@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM php:8.2-fpm
+FROM php:8.2-fpm
 
 # 安装系统依赖（包含SSL相关依赖）
 RUN apt-get update && apt-get install -y \
