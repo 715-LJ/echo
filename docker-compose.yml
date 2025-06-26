@@ -36,7 +36,7 @@ services:
 
   #  后端代理
   nginx-api:
-    image: nginx:latest
+    image: crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com/lijia-images/nginx:latest
     container_name: nginx-api
     volumes:
       - ./config/nginx/conf.d/api.conf:/etc/nginx/conf.d/api.conf
@@ -51,7 +51,7 @@ services:
 
   #  前端代理
   nginx-front:
-    image: nginx:latest
+    image: crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com/lijia-images/nginx:latest
     container_name: nginx-front
     volumes:
       - ./config/nginx/conf.d/front.conf:/etc/nginx/conf.d/front.conf
@@ -64,7 +64,7 @@ services:
       - echo-frontend
 
   redis:
-    image: redis:latest
+    image: crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com/lijia-images/redis:latest
     container_name: redis
     ports:
       - "6379:6379"
@@ -92,7 +92,7 @@ services:
 #        hard: -1
 
   mysql:
-    image: mysql:8.0
+    image: crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com/lijia-images/mysql:8.0
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root@123

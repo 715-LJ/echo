@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com/lijia-images/php:8.2-fpm
 
 # 更新APT包并安装基本工具
 RUN apt-get update && apt-get install -y \
@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
     supervisor
 
 # 安装Redis扩展
-RUN pecl install redis && docker-php-ext-enable redis
+#RUN pecl install redis && docker-php-ext-enable redis
 
 # 安装Memcached扩展
 #RUN apt-get update && apt-get install -y libmemcached-dev libssl-dev zlib1g-dev \
