@@ -18,7 +18,6 @@
 - echo-api-queue
 - nginx-api
 - nginx-front
-- php
 - redis
 - es
 - mysql
@@ -28,4 +27,4 @@
 - api:8080
 - front:9090
 - redis:6379
-- es:19200
+- es:9200
