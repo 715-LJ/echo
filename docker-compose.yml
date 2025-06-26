@@ -57,7 +57,7 @@ services:
       - ./config/nginx/conf.d/front.conf:/etc/nginx/conf.d/front.conf
       - ./front:/var/www
     ports:
-      - "9090:9090"
+      - "80:9090"
     depends_on:
       - echo-api
     networks:
