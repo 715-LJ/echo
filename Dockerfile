@@ -31,7 +31,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # 清理缓存
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 修复SSL证书问题
+# SSL证书
 RUN update-ca-certificates
 
 # 安装Composer（带重试机制和超时设置）
