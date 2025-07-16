@@ -66,6 +66,7 @@ services:
       - echo-frontend
     extra_hosts: # 解析到宿主机地址
       - "host.docker.internal:172.17.0.1"
+    command: sh -c "cd /var/www && npm install && npm run start & nginx -g 'daemon off;'"
 
   redis:
     image: crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com/lijia-images/redis:latest
