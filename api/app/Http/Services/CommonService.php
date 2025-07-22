@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Jobs\TestJob;
 use App\Models\User\UserModel;
 use Carbon\Carbon;
 use Gregwar\Captcha\CaptchaBuilder;
@@ -10,6 +11,7 @@ class CommonService extends BaseService
 {
     public function code(array $params)
     {
+        TestJob::dispatch();
         $verification_code = getRandom(4);
         cache_set(data_get($params, 'ip'), $verification_code);
 

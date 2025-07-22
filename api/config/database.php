@@ -171,7 +171,7 @@ return [
 
         'website' => [
             'url'      => env('REDIS_URL'),
-            'host'     => env('WEBSITE_REDIS_HOST', '172.16.40.202'),
+            'host'     => env('WEBSITE_REDIS_HOST', '127.0.0.1'),
             'username' => env('WEBSITE_REDIS_USERNAME'),
             'password' => env('WEBSITE_REDIS_PASSWORD'),
             'port'     => env('WEBSITE_REDIS_PORT', '6379'),
