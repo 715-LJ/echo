@@ -57,7 +57,7 @@ services:
     container_name: nginx-front
     volumes:
       - ./config/nginx/conf.d/front.conf:/etc/nginx/conf.d/front.conf
-      - ./front:/var/www
+      - ./front/dist:/var/www
     ports:
       - "80:9090"
       - "9090:9090"
