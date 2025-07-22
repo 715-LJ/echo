@@ -118,14 +118,14 @@ services:
       retries: 5
 
   # 添加 rustfs 服务
-  rustfs:
-    image: rustfs/rustfs
-    container_name: rustfs
-    ports:
-      - "9001:9000"  # 将主机的 9001 端口映射到容器的 9000 端口
-    volumes:
-      - /data:/data  # 将主机的 /data 目录挂载到容器的 /data 目录
-    restart: always  # 设置容器始终重启（可选）
+#  rustfs:
+#    image: rustfs/rustfs
+#    container_name: rustfs
+#    ports:
+#      - "9001:9000"  # 将主机的 9001 端口映射到容器的 9000 端口
+#    volumes:
+#      - /data:/data  # 将主机的 /data 目录挂载到容器的 /data 目录
+#    restart: always  # 设置容器始终重启（可选）
 
 networks:
   echo-backend:
