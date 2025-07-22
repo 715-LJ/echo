@@ -1,8 +1,9 @@
 # sudo docker login --username=木子镓 crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com
-#  docker-compose up -d
-#  docker-compose build --no-cache && docker-compose up -d
+# docker-compose up -d
+# docker-compose build --no-cache && docker-compose up -d
+
 services:
-  #  后端服务层
+  # 后端服务层
   echo-api:
     build:
       context: .
@@ -21,7 +22,7 @@ services:
       redis:
         condition: service_started
 
-  #  后端服务异步队列
+  # 后端服务异步队列
   echo-api-queue:
     image: echo-api
     container_name: echo-api-queue
@@ -35,7 +36,7 @@ services:
       redis:
         condition: service_started
 
-  #  后端代理
+  # 后端代理
   nginx-api:
     image: crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com/lijia-images/nginx:latest
     container_name: nginx-api
@@ -50,7 +51,7 @@ services:
       - echo-backend
       - echo-frontend
 
-  #  前端代理
+  # 前端代理
   nginx-front:
     image: crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com/lijia-images/nginx:latest
     container_name: nginx-front
@@ -64,8 +65,8 @@ services:
       - echo-api
     networks:
       - echo-frontend
-    extra_hosts: # 解析到宿主机地址
-      - "host.docker.internal:172.17.0.1"
+#    extra_hosts: # 解析到宿主机地址
+#      - "host.docker.internal:172.17.0.1"
     command: sh -c "cd /var/www && npm install && npm run start & nginx -g 'daemon off;'"
 
   redis:
@@ -81,20 +82,20 @@ services:
       timeout: 3s
       retries: 3
 
-  #  elasticsearch:
-  #    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
-  #    container_name: elasticsearch
-  #    environment:
-  #      - discovery.type=single-node
-  #      - ES_JAVA_OPTS=-Xms512m -Xmx512m  # 限制内存
-  #    ports:
-  #      - "9200:9200"
-  #    networks:
-  #      - echo-backend
-  #    ulimits:
-  #      memlock:
-  #        soft: -1
-  #        hard: -1
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+  #   container_name: elasticsearch
+  #   environment:
+  #     - discovery.type=single-node
+  #     - ES_JAVA_OPTS=-Xms512m -Xmx512m  # 限制内存
+  #   ports:
+  #     - "9200:9200"
+  #   networks:
+  #     - echo-backend
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
 
   mysql:
     image: crpi-wnfek3pn2k4kqc1p.cn-chengdu.personal.cr.aliyuncs.com/lijia-images/mysql:8.0
@@ -115,6 +116,16 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+
+  # 添加 rustfs 服务
+  rustfs:
+    image: rustfs/rustfs
+    container_name: rustfs
+    ports:
+      - "9001:9000"  # 将主机的 9001 端口映射到容器的 9000 端口
+    volumes:
+      - /data:/data  # 将主机的 /data 目录挂载到容器的 /data 目录
+    restart: always  # 设置容器始终重启（可选）
 
 networks:
   echo-backend:
